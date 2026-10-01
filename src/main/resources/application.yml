@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: auth-service
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/financial_auth
+    username: financial_user
+    password: secure_password_123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 600000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: ADMIN
+
+jwt:
+  secret: ${JWT_SECRET:bXktc2VjdXJlLXNlY3JldC1rZXktZm9yLWp3dC10b2tlbi1kZW1vLWZpbmFuY2lhbC1wbGF0Zm9ybQ==}
+  expiration: 86400000 # 24 horas en milisegundos
+  issuer: financial-auth-service
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/auth
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  level:
+    root: INFO
+    com.financial.auth: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.security: DEBUG
